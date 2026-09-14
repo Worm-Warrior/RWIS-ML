@@ -1,14 +1,36 @@
-## Website for Finding Stations
+## Data (Surface Dataset)
 
-https://mesonet.agron.iastate.edu/sites/networks.php?network=IA_RWIS
-https://mesonet.agron.iastate.edu/RWIS/camera.phtml
+https://mesonet.agron.iastate.edu/RWIS/currentSF.phtml
 
-## Candidate Sites
-1. Burlington (Far east on the river/border) - Goes back ~10 years
+Features: 
+    - Air Temp[F] (tmpf)
 
-2. Ames (Near ISU) – (Multiple good camera angles) - Starts 2011(?) :: Stops 2019
+    - Dew Point Temp [F] (dwpf)
 
-3. Colfax (near Des Moines) – (one of the cameras) - Start and stop determined by angle chosen
+    - Feels Like Temp [F] (feel)
 
-4. Mason City (Northern) - (Multiple good angles) - Start 2009 or 2022 depending on angle
+    - Relative Humidity [%] (relh)
 
+    - Wind Speed [knots] (sknt)
+
+    - Wind Direction [Degree N] (drct)
+
+    - Wind Gust [knots] (gust)
+
+    - Pavement Sensor0 Temp [F] (tfs0)
+
+    - Pavement Sensor0 Condition (tfs0_text)
+    
+    - Pavement Sensor1 Temp [F] (tfs1)
+
+    - Pavement Sensor1 Condition (tfs1_text)
+
+    - Pavement Sensor2 Temp [F] (tfs2)
+
+    - Pavement Sensor2 Condition (tfs2_text)
+
+    - Pavement Sensor3 Temp [F] (tfs3)
+
+    - Pavement Sensor3 Condition (tfs3_text)
+
+    - Subsurface Temp [F] (subf)
