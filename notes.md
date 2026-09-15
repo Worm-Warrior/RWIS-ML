@@ -2,6 +2,8 @@
 
 https://mesonet.agron.iastate.edu/RWIS/currentSF.phtml
 
+Going to target Aug 1st to Dec 31st of each year.
+
 Features: 
     - Air Temp[F] (tmpf)
 
