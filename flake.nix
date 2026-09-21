@@ -28,6 +28,7 @@ inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
         matplotlib
         seaborn
         requests
+        torch
       ]);
     in {
       devShells.${system}.default = pkgs.mkShell {
