@@ -7,13 +7,13 @@ KEEP = ['station','obtime','longitude','latitude','tmpf','dwpf','drct',
 NUM_COLS = ['tmpf','dwpf','drct','sknt','gust','relh','tfs0']
 INVALID_LABELS = ['Other','Error','No Report','-99']
 
-out_dir = Path('clean'); out_dir.mkdir(exist_ok=True)
+out_dir = Path('dataset/stripped_csv'); out_dir.mkdir(exist_ok=True)
 class_counts, other_by_station, summary = {}, [], []
 dataset_files = ['dataset/rwis_data_2015.txt', 'dataset/rwis_data_2016.txt', 'dataset/rwis_data_2017.txt', 'dataset/rwis_data_2018.txt', 'dataset/rwis_data_2019.txt', 'dataset/rwis_data_2020.txt', 'dataset/rwis_data_2021.txt', 'dataset/rwis_data_2022.txt', 'dataset/rwis_data_2023.txt', 'dataset/rwis_data_2024.txt', 'dataset/rwis_data_2025.txt']
 
 for file in dataset_files:
     year = int(file[-8:-4])
-    df = pd.read_csv(file, usecols=KEEP)
+    df = pd.read_csv(file, usecols=KEEP, dtype = {'tfs0_text': str}, low_memory=False)
     n_raw = len(df)
 
     # Diagnostic: where does "Other" come from? (before it is dropped)
