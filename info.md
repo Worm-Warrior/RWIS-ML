@@ -2,7 +2,7 @@
 
 https://mesonet.agron.iastate.edu/RWIS/currentSF.phtml
 
-Going to target Aug 1st to Dec 31st of each year.
+Download data: https://mesonet.agron.iastate.edu/request/rwis/fe.phtml?network=IA_RWIS
 
 Data Headers: 
     - Air Temp[F] (tmpf)
@@ -38,10 +38,4 @@ Data Headers:
     - Subsurface Temp [F] (subf)
 
 
-## What features do we *not* care about?
-
-
-Station -> This should not matter, I think that it will just be noise for the model, we care about the data itself.
-
-Feels Like Temp -> This is pretty much just a combo of temp, wind, humid. We have those already so we don't want this I think.
 
