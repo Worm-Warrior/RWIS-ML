@@ -4,7 +4,7 @@ https://mesonet.agron.iastate.edu/RWIS/currentSF.phtml
 
 Going to target Aug 1st to Dec 31st of each year.
 
-Features: 
+Data Headers: 
     - Air Temp[F] (tmpf)
 
     - Dew Point Temp [F] (dwpf)
@@ -36,3 +36,12 @@ Features:
     - Pavement Sensor3 Condition (tfs3_text)
 
     - Subsurface Temp [F] (subf)
+
+
+## What features do we *not* care about?
+
+
+Station -> This should not matter, I think that it will just be noise for the model, we care about the data itself.
+
+Feels Like Temp -> This is pretty much just a combo of temp, wind, humid. We have those already so we don't want this I think.
+
