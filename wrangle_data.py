@@ -11,6 +11,6 @@ print(df.count())
 print(df.groupby("station")[["tfs0", "tfs1", "tfs2", "tfs3", "subf"]].apply(lambda g: g.notna().mean()))
 
 # The value of -99 is used as a sentinel value, so we replace it with NaN, as it should be.
-df = df.replace(-99, np.NaN)
-df = df.replace('-99', np.NaN)
+df = df.replace(-99, np.nan)
+df = df.replace('-99', np.nan)
 print(df.head(10))
