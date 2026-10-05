@@ -1,5 +1,5 @@
 from sklearn.dummy import DummyClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import HistGradientBoostingClassifier
 import pandas as pd
 import numpy as np
 
@@ -8,12 +8,12 @@ validation_set_path = '../dataset/clean/val.csv'
 testing_set_path = '../dataset/clean/test.csv'
 
 def main() -> None:
-    model = LogisticRegression();
+    model = HistGradientBoostingClassifier();
 
     print("Loading data...")
-    data = pd.read_csv(testing_set_path)
+    data = pd.read_csv(training_set_path)
 
-    X_train = data.drop(columns=['label','station', 'obtime'])
+    X_train = data.drop(columns=['label','station', 'obtime', 'tfs0_text'])
     y_train = data['label']
 
     print("X_train and y_train first 5 entries")
