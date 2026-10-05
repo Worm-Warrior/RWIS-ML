@@ -36,3 +36,11 @@ Plan:
 
 - Keep the raw files split by year as the source of truth, so each year's data can be inspected and reprocessed independently.
 - Clean each yearly file separately, then combine the cleaned yearly outputs only when building the training dataset.
+
+## Collapsing data
+
+Right now I have it so that we just have 3 labels, `Wry`, `Wet`, `Ice/Snow`.
+
+This could cause problems for the model, but for the first round of testing / exploring I think its fine.
+
+We will need to tweak this in the future.
