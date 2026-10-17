@@ -61,18 +61,20 @@ def normalize_label_series(series: pd.Series) -> pd.Series:
     )
 
 
-def build_year_clean_dataset(raw_path: Path, output_dir: Path) -> tuple[dict, pd.DataFrame, pd.Series]:
+def build_year_clean_dataset(
+    raw_path: Path,
+    output_dir: Path,
+    keep_all_columns: bool = False,
+) -> tuple[dict, pd.DataFrame, pd.Series]:
     year = int(raw_path.stem.split("_")[-1])
 
     raw_df = pd.read_csv(raw_path, usecols=["station", "obtime"], low_memory=False)
     n_raw = len(raw_df)
 
-    df = pd.read_csv(
-        raw_path,
-        usecols=KEEP_COLUMNS,
-        dtype={"tfs0_text": str},
-        low_memory=False,
-    )
+    read_options = {"dtype": {"tfs0_text": str}, "low_memory": False}
+    if not keep_all_columns:
+        read_options["usecols"] = KEEP_COLUMNS
+    df = pd.read_csv(raw_path, **read_options)
 
     other_by_station = (
         df["tfs0_text"].eq("Other").groupby(df["station"]).agg(["mean", "sum"]).reset_index()
@@ -121,6 +123,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Clean per-year RWIS data into training-ready CSV files.")
     parser.add_argument("--dataset-dir", type=Path, default=Path("dataset"), help="Directory containing raw RWIS TXT files.")
     parser.add_argument("--output-dir", type=Path, default=None, help="Directory for cleaned CSV outputs; defaults to dataset/clean.")
+    parser.add_argument(
+        "--keep-all-columns",
+        action="store_true",
+        help="Keep every column from the raw files for feature engineering experiments.",
+    )
     args = parser.parse_args()
 
     dataset_dir = args.dataset_dir
@@ -136,7 +143,11 @@ def main() -> None:
     class_counts_by_year: dict[int, pd.Series] = {}
 
     for raw_path in raw_files:
-        summary, other_by_station, class_counts = build_year_clean_dataset(raw_path, output_dir)
+        summary, other_by_station, class_counts = build_year_clean_dataset(
+            raw_path,
+            output_dir,
+            keep_all_columns=args.keep_all_columns,
+        )
         summaries.append(summary)
         other_by_station_frames.append(other_by_station)
         class_counts_by_year[int(raw_path.stem.split("_")[-1])] = class_counts

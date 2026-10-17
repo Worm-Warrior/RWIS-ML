@@ -2,3 +2,4 @@ dataset/
 .vscode
 .direnv/
 AGENTS.md
+model_output/

@@ -98,6 +98,43 @@ The cleaned dataset keeps these columns:
 
 These time columns are stored separately so the modeling window and feature engineering can be adjusted later without re-reading the raw files.
 
+## Build training data
+
+Using the `ds3010` Conda environment, materialize the combined and time-based CSV splits:
+
+```bash
+/home/harry/anaconda3/envs/ds3010/bin/python scripts/build_training_table.py --format csv
+```
+
+This writes `rwis_all.csv`, `train.csv`, `val.csv`, `test.csv`, and `build_manifest.json` into `dataset/clean/`. The default split is 2015-2022 for training, 2023-2024 for validation, and 2025 for testing.
+
+## Build full-information feature-engineering data
+
+To create equivalent time-based splits that retain every raw sensor and observation column, run:
+
+```bash
+python wrangle_data.py --dataset-dir dataset --output-dir dataset/testing_features --keep-all-columns
+python scripts/build_training_table.py --clean-dir dataset/testing_features --out-dir dataset/testing_features --format csv
+```
+
+This writes the full-information `train.csv`, `val.csv`, and `test.csv` files to `dataset/testing_features/`. The files include the raw fields such as `tfs1`, `tfs2`, `tfs3`, `subf`, `pcpn`, `vsby`, and `feel`, alongside the cleaned `label` and derived time columns. The split years remain 2015-2022 for training, 2023-2024 for validation, and 2025 for testing.
+
+## Train the logistic-regression baseline
+
+Run the classifier using the generated split files:
+
+```bash
+python scripts/model.py
+```
+
+The model uses the numeric sensor features `tmpf`, `dwpf`, `drct`, `sknt`, `gust`, `relh`, and `tfs0`. It imputes missing values, standardizes features, and uses class-balanced multinomial logistic regression. Outputs are written to `model_output/`: `metrics.json`, `test_predictions.csv`, and `logistic_regression.joblib`.
+
+For a bounded smoke test, use `--max-train-rows` and `--max-eval-rows`, for example:
+
+```bash
+python scripts/model.py --max-train-rows 10000 --max-eval-rows 3000 --output-dir /tmp/rwis-model-smoke
+```
+
 ## Notes
 
 - We keep the original `tfs0_text` label alongside the coarse `label` column for traceability.
