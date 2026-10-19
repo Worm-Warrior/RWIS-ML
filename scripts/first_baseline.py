@@ -7,23 +7,33 @@ training_set_path = '../dataset/clean/train.csv'
 validation_set_path = '../dataset/clean/val.csv'
 testing_set_path = '../dataset/clean/test.csv'
 
+DROP_COLS = ['label','station', 'obtime', 'tfs0_text']
+
 def main() -> None:
     model = HistGradientBoostingClassifier();
 
     print("Loading data...")
     data = pd.read_csv(training_set_path)
 
-    X_train = data.drop(columns=['label','station', 'obtime', 'tfs0_text'])
+    X_train = data.drop(columns=DROP_COLS)
     y_train = data['label']
 
     print("X_train and y_train first 5 entries")
     print(X_train.head(5))
     print(y_train.head(5))
 
+    print("Training model...")
+
     model.fit(X_train,y_train)
 
+    test_data = pd.read_csv(testing_set_path)
+
+    X_test = test_data.drop(columns=DROP_COLS)
+    y_test = test_data['label']
+
+
     print("Model score:")
-    print(model.score(X_train,y_train))
+    print(model.score(X_test,y_test))
 
 
 
