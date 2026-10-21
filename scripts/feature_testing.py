@@ -3,16 +3,17 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 
-training_set_path = '../dataset/testing_features/train.csv'
-validation_set_path = '../dataset/testing_features/val.csv'
+training_set_path = '../dataset/testing_features/'
+validation_set_path = '../dataset/testing_features/'
 testing_set_path = '../dataset/testing_features/test.csv'
+
+TRAINING_FILES = ['']
 
 DROP_COLS = ['label','station', 'obtime', 'tfs0_text']
 
 def main() -> None:
     model = HistGradientBoostingClassifier();
 
-    print("Loading data...")
     data = pd.read_csv(training_set_path)
 
     for c in data.select_dtypes("float64"):
@@ -26,13 +27,7 @@ def main() -> None:
     X_train = data.drop(columns=DROP_COLS)
     y_train = data['label']
     
-    X_s, _, y_s, _ = train_test_split(X_train, y_train, train_size=4000000, random_state=0)
-    
     print(X_train.shape)
-
-    print("X_train and y_train first 5 entries")
-    print(X_train.head(5))
-    print(y_train.head(5))
 
     print("Training model...")
 
