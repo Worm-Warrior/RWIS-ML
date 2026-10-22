@@ -7,41 +7,41 @@ training_set_path = '../dataset/testing_features/'
 validation_set_path = '../dataset/testing_features/'
 testing_set_path = '../dataset/testing_features/test.csv'
 
-TRAINING_FILES = ['']
-
-DROP_COLS = ['label','station', 'obtime', 'tfs0_text']
+TRAINING_FILES = ['2015','2016','2017','2018','2019','2020','2021','2022']
+FILE_PREFIX = 'rwis_'
+DROP_COLS = ['label','station', 'obtime', 'tfs0_text', 'tfs1_text','tfs2_text','tfs3_text']
 
 def main() -> None:
     model = HistGradientBoostingClassifier();
+    
+    scores = {};
+    
+    for file in TRAINING_FILES:
+        path = training_set_path + FILE_PREFIX + file + '_clean' + '.csv'
+    
+        data = pd.read_csv(path)
+    
+        X_train = data.drop(columns=DROP_COLS)
+        y_train = data['label']
+    
+        print(X_train.shape)
 
-    data = pd.read_csv(training_set_path)
+        print("Training model...")
 
-    for c in data.select_dtypes("float64"):
-        data[c] = data[c].astype("float32")
-    for c in data.select_dtypes("int64"):
-        data[c] = pd.to_numeric(data[c], downcast="integer")
-    for c in data.select_dtypes("object"):
-        data[c] = data[c].astype("category")
+        model.fit(X_train,y_train)
+
+        test_data = pd.read_csv(testing_set_path)
+
+        X_test = test_data.drop(columns=DROP_COLS)
+        y_test = test_data['label']
+
+
+        print("Model score:")
+        score = model.score(X_test, y_test)
+        print(score)
+        scores[file] = score
         
-    
-    X_train = data.drop(columns=DROP_COLS)
-    y_train = data['label']
-    
-    print(X_train.shape)
-
-    print("Training model...")
-
-    model.fit(X_train,y_train)
-
-    test_data = pd.read_csv(testing_set_path)
-
-    X_test = test_data.drop(columns=DROP_COLS)
-    y_test = test_data['label']
-
-
-    print("Model score:")
-    print(model.score(X_test,y_test))
-
+    print(scores)
 
 
 if __name__ == "__main__":
