@@ -9,7 +9,7 @@ testing_set_path = '../dataset/testing_features/test.csv'
 
 TRAINING_FILES = ['2015','2016','2017','2018','2019','2020','2021','2022']
 FILE_PREFIX = 'rwis_'
-DROP_COLS = ['label','station', 'obtime', 'tfs0_text', 'tfs1_text','tfs2_text','tfs3_text']
+DROP_COLS = ['label','station', 'obtime', 'tfs0_text', 'tfs1_text','tfs2_text','tfs3_text','tfs1','tfs2','tfs3', 'subf']
 
 def main() -> None:
     model = HistGradientBoostingClassifier();
@@ -41,8 +41,10 @@ def main() -> None:
         print(score)
         scores[file] = score
         
+    avg_score = sum(scores.values()) / len(scores)
     print(scores)
-
+    print("Averaged score:")
+    print(avg_score)
 
 if __name__ == "__main__":
     main()
